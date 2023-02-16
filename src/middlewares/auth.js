@@ -15,6 +15,7 @@ const createToken = async (user, res) => {
     return res.status(201).json({
         success: true,
         token,
+        name: payload.name,
         message: "Başarılı"
     });
 }
@@ -52,7 +53,7 @@ const createTemporaryToken = async (userId, email) => {
     }
     const token = await jwt.sign(payload, process.env.JWT_TEMPORARY_KEY, {
         algorithm: "HS512",
-        expiresIn: process.env.JWT_EXPIRES_IN
+        expiresIn: process.env.JWT_TEMPORARY_EXPIRES_IN
     });
     return "Bearer " + token;
 }

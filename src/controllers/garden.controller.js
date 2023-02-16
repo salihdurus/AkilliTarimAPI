@@ -79,4 +79,69 @@ const getGardenDetails = async (req, res) => {
         })
 }
 
-module.exports = { addGarden, getGardens, getGardenDetails };
+const getGardenSettings = async (req, res) => {
+    const { _id } = req.user;
+    let gardenSettings = [];
+    let pesticides = [];
+    await garden.find({ owner: _id })
+        .then(async (data) => {
+            data.map((item) => {
+                gardenSettings.push({
+                    gardenId: item.id,
+                    gardenName: item.name,
+                    automaticScan: item.automaticScan,
+                    scanPeriode: item.scan.periode,
+                    automaticSpraying: item.automaticSpraying,
+                    slots: item.slots
+                })
+            })
+            await pesticide.find()
+                .then((data) => {
+                    data.map((item) => {
+                        pesticides.push({
+                            pesticideId: item._id,
+                            pesticideName: item.name,
+                        })
+                    })
+                })
+
+            return new Response({ gardens: gardenSettings, pesticides }, "Bahçe Ayarları Başarıyla Listelendi").success(res)
+
+        })
+        .catch((err) => {
+            throw new APIError(err.message, 400);
+        })
+}
+
+const updateGardenSettings = async (req, res) => {
+    const { gardenId, automaticScan, automaticSpraying, scanPeriode } = req.body;
+    let { slot1, slot2, slot3, slot4 } = req.body
+    slot1 === "" ? slot1 = "63eae7048cf96b9cd73cd051" : slot1;
+    slot2 === "" ? slot2 = "63eae7048cf96b9cd73cd051" : slot2;
+    slot3 === "" ? slot3 = "63eae7048cf96b9cd73cd051" : slot3;
+    slot4 === "" ? slot4 = "63eae7048cf96b9cd73cd051" : slot4;
+    await garden.updateOne({ _id: gardenId }, {
+        automaticScan,
+        automaticSpraying,
+        slots: {
+            slot1,
+            slot2,
+            slot3,
+            slot4,
+        },
+        scan: {
+            periode: scanPeriode
+        }
+    })
+        .then((data) => {
+            new Response(data, "Başarıyla Güncellendi").success(res);
+        })
+        .catch((err) => {
+            console.log(err.message);
+            throw new APIError("Bahçe Güncellenemedi !", 400);
+        })
+
+
+}
+
+module.exports = { addGarden, getGardens, getGardenDetails, getGardenSettings, updateGardenSettings };

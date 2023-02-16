@@ -27,8 +27,23 @@ const gardenSchema = new mongoose.Schema({
         trim: true,
     },
     slots: {
-        type: Schema.Types.ObjectId,
-        default: null
+        slot1: {
+            type: Schema.Types.ObjectId,
+            default: "63eae7048cf96b9cd73cd051"
+        },
+        slot2: {
+            type: Schema.Types.ObjectId,
+            default: "63eae7048cf96b9cd73cd051"
+        },
+        slot3: {
+            type: Schema.Types.ObjectId,
+            default: "63eae7048cf96b9cd73cd051"
+        },
+        slot4: {
+            type: Schema.Types.ObjectId,
+            default: "63eae7048cf96b9cd73cd051"
+        }
+
     },
     status: {
         type: String,

@@ -10,10 +10,7 @@ const pesticide = require("./pesticide.routes");
 const slot = require("./slot.routes");
 
 router.use(auth,garden,plant,pesticide,slot);
-// router.use(garden);
-// router.use(plant)
-// router.use(pesticide);
-// router.use(slot);
+
 
 router.post("/upload", function (req, res) {
     upload(req, res, function (err) {

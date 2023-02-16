@@ -10,7 +10,7 @@ const moment = require("moment/moment");
 const login = async (req, res) => {
     const { email, password } = req.body;
     const loginUser = await user.findOne({ email });
-    console.log(loginUser);
+    
     if (!loginUser)
         throw new APIError("Mail yada Şifre Hatalıdır!", 401);
     const comparePassword = await bcrypt.compare(password, loginUser.password);
