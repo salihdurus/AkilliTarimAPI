@@ -8,8 +8,9 @@ const garden = require("./garden.routes");
 const plant = require("./plant.routes");
 const pesticide = require("./pesticide.routes");
 const slot = require("./slot.routes");
+const scan = require("../middlewares/lib/scan");
 
-router.use(auth,garden,plant,pesticide,slot);
+router.use(auth, garden, plant, pesticide, slot);
 
 
 router.post("/upload", function (req, res) {
